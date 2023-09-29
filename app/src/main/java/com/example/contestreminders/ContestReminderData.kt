@@ -1,6 +1,6 @@
 package com.example.contestreminders
 
-class ContestReminderData(var contestSiteName: String, var contestName: String, var contestStartTime: Long)
+class ContestReminderData(private var contestSiteName: String, private var contestName: String, private var contestStartTime: Long)
 {
     fun getContestSiteName() = contestSiteName
     fun getContestName() = contestName
