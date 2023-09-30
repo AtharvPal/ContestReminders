@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         val data = ArrayList<ContestReminderData>()
         for (i in 1..20)
-            data.add(ContestReminderData("Codeforces", "Div 2", 1698598962))
+            data.add(ContestReminderData("Codeforces", "Div 2", 1696487654000))
 
         val adapter = CustomAdapter(data)
 

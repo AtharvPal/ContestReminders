@@ -1,5 +1,6 @@
 package com.example.contestreminders
 
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,10 @@ class CustomAdapter(private val mList: List<ContestReminderData>) : RecyclerView
         // sets the text to the textview from our itemHolder class
         holder.contestNameTextView.text = contestReminderData.getContestName()
         holder.contestSiteNameTextView.text = contestReminderData.getContestSiteName()
-        holder.contestSiteTimeLeftTextView.text = contestReminderData.getContestStartTime().toString()
+        val timeToStart = contestReminderData.getContestStartTime()
+        val timeTillStart = ContestTimeUtils.getTimeRemainingTillStart(timeToStart)
+        holder.contestTimeLeftTimer = MyTimer(holder.contestTimeLeftTextView, timeTillStart,1000)
+        holder.contestTimeLeftTimer.start()
     }
 
     // return the number of the items in the list
@@ -37,6 +41,18 @@ class CustomAdapter(private val mList: List<ContestReminderData>) : RecyclerView
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val contestNameTextView: TextView = itemView.findViewById(R.id.contest_reminder_name)
         val contestSiteNameTextView: TextView = itemView.findViewById(R.id.contest_reminder_site)
-        val contestSiteTimeLeftTextView: TextView = itemView.findViewById(R.id.contest_reminder_timeleft)
+        val contestTimeLeftTextView: TextView = itemView.findViewById(R.id.contest_reminder_timeleft)
+        lateinit var contestTimeLeftTimer: MyTimer
+    }
+
+    class MyTimer(private var textView: TextView, timeInMillis: Long, interval: Long) : CountDownTimer(timeInMillis, interval) {
+        override fun onTick(p0: Long) {
+            textView.setText(ContestTimeUtils.convertLongToHHMMSS(p0))
+        }
+
+        override fun onFinish() {
+            // TODO - have a better handling when contest time is up
+            textView.setText("Started")
+        }
     }
 }
