@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class CustomAdapter(private val mList: List<ContestReminderData>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+
+    private var TIMER_INTERVAL_MS = 1000L
+
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
@@ -28,7 +31,7 @@ class CustomAdapter(private val mList: List<ContestReminderData>) : RecyclerView
         holder.contestSiteNameTextView.text = contestReminderData.getContestSiteName()
         val timeToStart = contestReminderData.getContestStartTime()
         val timeTillStart = ContestTimeUtils.getTimeRemainingTillStart(timeToStart)
-        holder.contestTimeLeftTimer = MyTimer(holder.contestTimeLeftTextView, timeTillStart,1000)
+        holder.contestTimeLeftTimer = MyTimer(holder.contestTimeLeftTextView, timeTillStart, TIMER_INTERVAL_MS)
         holder.contestTimeLeftTimer.start()
     }
 

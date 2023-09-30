@@ -20,6 +20,7 @@ class ContestTimeUtils {
             val minutes = timeInSeconds / SECONDS_IN_MINUTE
             timeInSeconds %= SECONDS_IN_MINUTE
             val seconds = timeInSeconds
+
             return "${days}d ${hours}h ${minutes}m ${seconds}s"
         }
     }
