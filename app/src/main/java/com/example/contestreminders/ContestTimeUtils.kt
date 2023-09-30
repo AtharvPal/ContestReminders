@@ -10,7 +10,7 @@ class ContestTimeUtils {
 
         fun getTimeRemainingTillStart(startTime: Long): Long = startTime - System.currentTimeMillis()
 
-        fun convertLongToHHMMSS(timeInMilliSeconds: Long): String {
+        fun convertLongToDDHHMMSS(timeInMilliSeconds: Long): String {
             var timeInSeconds = timeInMilliSeconds / 1000
 
             val days = timeInSeconds / SECONDS_IN_DAY

@@ -47,7 +47,7 @@ class CustomAdapter(private val mList: List<ContestReminderData>) : RecyclerView
 
     class MyTimer(private var textView: TextView, timeInMillis: Long, interval: Long) : CountDownTimer(timeInMillis, interval) {
         override fun onTick(p0: Long) {
-            textView.setText(ContestTimeUtils.convertLongToHHMMSS(p0))
+            textView.setText(ContestTimeUtils.convertLongToDDHHMMSS(p0))
         }
 
         override fun onFinish() {
