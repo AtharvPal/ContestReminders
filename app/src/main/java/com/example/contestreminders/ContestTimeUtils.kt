@@ -1,5 +1,10 @@
 package com.example.contestreminders
 
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+
 class ContestTimeUtils {
 
     companion object {
@@ -22,6 +27,16 @@ class ContestTimeUtils {
             val seconds = timeInSeconds
 
             return "${days}d ${hours}h ${minutes}m ${seconds}s"
+        }
+
+        fun convertUnixToDateTime(unixTimeMillis: Long): String {
+            val instant = Instant.ofEpochMilli(unixTimeMillis)
+            val localDateTime = LocalDateTime.ofInstant(instant, java.time.ZoneId.systemDefault())
+
+            // Use a custom pattern without seconds
+            val customFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy hh:mm a", Locale.ENGLISH)
+
+            return localDateTime.format(customFormatter)
         }
     }
 }

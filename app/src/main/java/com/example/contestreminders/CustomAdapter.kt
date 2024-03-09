@@ -1,5 +1,6 @@
 package com.example.contestreminders
 
+import android.graphics.Color
 import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
@@ -29,8 +30,10 @@ class CustomAdapter(private val mList: List<ContestReminderData>) : RecyclerView
         // sets the text to the textview from our itemHolder class
         holder.contestNameTextView.text = contestReminderData.getContestName()
         holder.contestSiteNameTextView.text = contestReminderData.getContestSiteName()
-        val timeToStart = contestReminderData.getContestStartTime()
-        val timeTillStart = ContestTimeUtils.getTimeRemainingTillStart(timeToStart)
+        val timeOfStarting = contestReminderData.getContestStartTime()
+        holder.contextStartDateTime.text = ContestTimeUtils.convertUnixToDateTime(timeOfStarting)
+        val timeTillStart = ContestTimeUtils.getTimeRemainingTillStart(timeOfStarting)
+        // For timer, time till end has to be passed in ms
         holder.contestTimeLeftTimer = MyTimer(holder.contestTimeLeftTextView, timeTillStart, TIMER_INTERVAL_MS)
         holder.contestTimeLeftTimer.start()
     }
@@ -45,17 +48,20 @@ class CustomAdapter(private val mList: List<ContestReminderData>) : RecyclerView
         val contestNameTextView: TextView = itemView.findViewById(R.id.contest_reminder_name)
         val contestSiteNameTextView: TextView = itemView.findViewById(R.id.contest_reminder_site)
         val contestTimeLeftTextView: TextView = itemView.findViewById(R.id.contest_reminder_timeleft)
+        val contextStartDateTime: TextView = itemView.findViewById(R.id.contest_reminder_date_time)
         lateinit var contestTimeLeftTimer: MyTimer
     }
 
     class MyTimer(private var textView: TextView, timeInMillis: Long, interval: Long) : CountDownTimer(timeInMillis, interval) {
         override fun onTick(p0: Long) {
             textView.setText(ContestTimeUtils.convertLongToDDHHMMSS(p0))
+            textView.setTextColor(Color.GREEN)
         }
 
         override fun onFinish() {
             // TODO - have a better handling when contest time is up
             textView.setText("Started")
+            textView.setTextColor(Color.RED)
         }
     }
 }
